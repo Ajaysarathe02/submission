@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jabalpur Engineering College</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- Header Section -->
+  <header>
+    <div class="logo">
+      <img src="https://www.jecjabalpur.ac.in/images/logo.jpg" alt="College Logo">
+    </div>
+    <div class="college-name">
+      <h1>Jabalpur Engineering College</h1>
+      <p>Since 1947</p>
+    </div>
+  </header>
+
+  <!-- Navigation Menu -->
+  <nav>
+    <ul>
+      <li><a href="#">About Us</a></li>
+      <li><a href="#">Departments</a></li>
+      <li><a href="#">Library</a></li>
+      <li><a href="#">Academics</a></li>
+      <li><a href="#">Contact Us</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content Section -->
+  <div class="container">
+    <!-- Left Sidebar (Principal Message) -->
+    <aside class="sidebar">
+      <h3>Principal's Message</h3>
+      <img src="https://www.jecjabalpur.ac.in/images/principal_big_small_n.jpeg" alt="Principal Image">
+      <p>"Welcome to Jabalpur Engineering College, where we strive for excellence in education and innovation."</p>
+    </aside>
+
+    <!-- Important Notices Section -->
+    <main>
+      <h2>Important Notices</h2>
+      <div class="notice-box">
+        <ul>
+          <li><a href="#">📌 Notice 1: Exam schedule announced</a></li>
+          <li><a href="#">📌 Notice 2: Scholarship application deadline</a></li>
+          <li><a href="#">📌 Notice 3: Placement drive update</a></li>
+        </ul>
+      </div>
+    </main>
+
+    <!-- Login Section -->
+    <aside class="login-corner">
+      <h2 id="login-title" class="hidden">Login as Guest</h2>
+      <form action="#" method="POST">
+        <label for="admin">Select Role:</label>
+        <select id="admin" name="admin" onchange="updateLoginTitle()" class="animate-dropdown">
+          <option value="">Select</option>
+          <option value="HOD">HOD</option>
+          <option value="PROJECT HEAD">PROJECT HEAD</option>
+          <option value="STUDENT">STUDENT</option>
+        </select>
+
+        <label for="userid">User ID / Email:</label>
+        <input type="text" id="userid" name="userid" placeholder="Enter your ID" required class="animated-input">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required class="animated-input">
+
+        <button type="submit" class="animated-button">Login</button>
+      </form>
+
+      <div class="extra-links">
+        <a href="#">Not have an account? Signup</a>
+        <a href="#">Forgot password?</a>
+      </div>
+    </aside>
+  </div>
+
+  <!-- JavaScript for Dynamic Login Title -->
+  <script>
+    function updateLoginTitle() {
+      var role = document.getElementById("admin").value;
+      var title = document.getElementById("login-title");
+      if (role) {
+        title.innerText = "Login as " + role;
+        title.classList.remove("hidden");
+        title.classList.add("fade-slide");
+      } else {
+        title.innerText = "Login as Guest";
+      }
+    }
+  </script>
+</body>
+
+</html>
