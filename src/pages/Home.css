@@ -1,0 +1,325 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* General Styles
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+} */
+
+.home-body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    background-color: whitesmoke;
+}
+
+/* Header */
+header {
+    display: flex;
+    align-items: center;
+    background-color: #002855;
+    color: white;
+    padding: 15px 20px;
+
+}
+
+.logo img {
+    width: 80px;
+    height: auto;
+    margin-right: 20px;
+    border-radius:20px;
+}
+
+.college-name h1 {
+    font-size: 40px;
+    margin: 0;
+}
+
+.college-name p {
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Navigation Bar */
+nav {
+    background-color: #004080;
+    padding: 12px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+nav ul li a:hover {
+    color: #ffcc00;
+}
+
+/* Main Layout */
+.container {
+    width: 100%;
+    display: flex;
+    padding: 30px;
+    justify-content: center;
+    flex: 1;
+    max-width: 100vw;
+  
+}
+
+/* Sidebar (Principal Message) */
+.sidebar {
+    width: 50%;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h3 {
+    color: #004080;
+    font-weight: 600;
+    align-self: flex-start;
+}
+
+.sidebar img {
+    width: 100px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.sidebar p {
+    line-height: 1.6;
+  }
+
+/* Important Notices */
+main {
+    width: 100%;
+    margin: 0 20px;
+    background-color: white;
+    
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+main h2 {
+    border-bottom: 3px solid #004080;
+    padding-bottom: 5px;
+    color: #004080;
+}
+
+.notice-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .notice-box h2 {
+    margin-top: 0;
+  }
+  
+
+  .notice-box ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .notice-box li {
+    background-color: #ecf0f1;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .notice-box li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .notice-box li strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  .notice-box li p {
+    margin: 0;
+    font-size: 10px;
+  }
+  
+.notice-box ul li a {
+    text-decoration: none;
+    color: #002855;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.notice-box li .uploaded-by {
+    font-size: 10px;
+    color: #101111;
+    margin-top: 5px;
+    display: flex;
+  }
+
+  .notice-box li .uploaded-by strong {
+    font-size: 10px;
+    color: #103bc5;
+    margin-left: 2px;
+  }
+
+.notice-box ul li a:hover {
+    color: #ff6600;
+}
+
+/* Login Corner */
+.login-corner {
+    width: 60%;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+}
+
+#login-title {
+    font-weight: bold;
+    font-size: large;
+}
+
+.login-corner h2 {
+    color: #004080;
+}
+
+.login-corner form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-corner label {
+    text-align: left;
+    font-weight: 500;
+    color: black;
+    font-weight: bold;
+}
+
+.login-corner input, .login-corner select {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+}
+
+button {
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #cc5500;
+}
+
+/* Extra Links */
+.extra-links {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.extra-links a {
+    display: block;
+    font-size: 14px;
+    color: #004080;
+    text-decoration: none;
+}
+
+.extra-links a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .sidebar, .login-corner {
+        width: 90%;
+        margin-bottom: 20px;
+    }
+}
+
+.footer {
+    background-color: #004080;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  .footer p {
+    margin: 5px 0;
+  }
+  
+  .footer a {
+    color: #ffcc00;
+    text-decoration: none;
+  }
+  
+  .footer a:hover {
+    text-decoration: underline;
+  }
+
+  .new-label {
+    background-color: #da0c0c;
+    color: white;
+    padding: 2px 5px;
+    border-radius: 5px;
+    animation: fadeInOut 2s infinite;
+    font-size: 7px;
+    position: absolute;
+    top: 20px;
+    right: 10px;
+  }
+  
+  @keyframes fadeInOut {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  

@@ -1,0 +1,509 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.left-panel, .right-panel {
+  width: 48%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1s ease-in-out;
+}
+
+.student-details {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.student-details h3 {
+  color: #004080;
+  margin-bottom: 15px;
+  font-size: 1.5em;
+}
+
+.student-details p {
+  margin: 10px 0;
+  font-size: 1.1em;
+  color: #333;
+}
+
+.student-details p strong {
+  color: #004080;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.left-panel h2, .right-panel h3 {
+  color: #004080;
+  margin-bottom: 20px;
+}
+
+.project-list, .student-details, .notification-panel {
+  margin-top: 20px;
+}
+
+.project-item, .notification-item {
+  background-color: #f1f1f1;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.project-item:hover, .notification-item:hover {
+  background-color: #e9ecef;
+  transform: scale(1.02);
+}
+
+.project-summary, .notification-summary {
+  cursor: pointer;
+}
+
+.project-details, .notification-details {
+  margin-top: 10px;
+}
+
+.project-details p, .notification-details p {
+  margin: 8px 0;
+}
+
+.delete-button {
+  background-color: #f11111;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: #cc0000;
+}
+
+.add-project-button, .submit-button, .logout-button, .toggle-notification-form-button {
+  background-color: #004080;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-project-button:hover, .submit-button:hover, .logout-button:hover, .toggle-notification-form-button:hover {
+  background-color: #003366;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 500px;
+  max-width: 90%;
+}
+
+.close-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  float: right;
+}
+
+.close-button:hover {
+  background-color: #cc0000;
+}
+
+.project-form, .notification-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-form label, .notification-form label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.project-form input, .project-form textarea, .notification-form input, .notification-form textarea {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.notification-panel {
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.notification-panel h3 {
+  color: #004080;
+  margin-bottom: 20px;
+  font-size: 1.5em;
+}
+
+.toggle-notification-form-button {
+  background-color: #004080;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-bottom: 20px;
+}
+
+.toggle-notification-form-button:hover {
+  background-color: #003366;
+}
+
+/* Ensure the form is displayed when the expanded class is added */
+.notification-form {
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  opacity: 0;
+}
+
+.notification-form.expanded {
+  max-height: 500px; /* Adjust as needed */
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  opacity: 1;
+}
+
+@keyframes expand {
+  from {
+    max-height: 0;
+    opacity: 0;
+  }
+  to {
+    max-height: 500px; /* Adjust as needed */
+    opacity: 1;
+  }
+}
+
+@keyframes collapse {
+  from {
+    max-height: 500px; /* Adjust as needed */
+    opacity: 1;
+  }
+  to {
+    max-height: 0;
+    opacity: 0;
+  }
+}
+
+.notification-form.expanded {
+  animation: expand 0.5s ease-in-out forwards;
+}
+
+.notification-form:not(.expanded) {
+  animation: collapse 0.5s ease-in-out forwards;
+}
+
+.notification-form label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.notification-form input, .notification-form textarea {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.notification-form button {
+  background-color: #004080;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.notification-form button:hover {
+  background-color: #003366;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.notification-list {
+  margin-top: 20px;
+}
+
+.notification-list h3 {
+  color: #004080;
+  margin-bottom: 15px;
+  font-size: 1.5em;
+}
+
+.notification-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.notification-list li {
+  background-color: #e9ecef;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.notification-list li:hover {
+  background-color: #d9dfe4;
+  transform: scale(1.02);
+}
+
+.notification-list li strong {
+  display: block;
+  font-size: 1.2em;
+  color: #004080;
+}
+
+.notification-list li p {
+  margin: 5px 0;
+  color: #333;
+}
+
+.notification-list li em {
+  font-size: 0.9em;
+  color: #666;
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.review-message-input {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+}
+
+.assign-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.assign-button:hover {
+  background-color: #45a049;
+}
+
+/* Other existing styles */
+.dashboard-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.left-panel, .right-panel {
+  flex: 1;
+  padding: 20px;
+}
+
+.project-list {
+  margin-top: 20px;
+}
+
+.project-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.project-summary {
+  cursor: pointer;
+}
+
+.project-details {
+  margin-top: 10px;
+}
+
+.delete-button, .review-button {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-button:hover, .review-button:hover {
+  background-color: #d32f2f;
+}
+
+.add-project-button, .submit-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-project-button:hover, .submit-button:hover {
+  background-color: #004080;
+}
+
+.notification-panel {
+  margin-top: 20px;
+}
+
+.notification-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-form label {
+  margin-top: 10px;
+}
+
+.notification-form input, .notification-form textarea {
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.notification-form .submit-button {
+  margin-top: 20px;
+}
+
+.notification-list {
+  margin-top: 20px;
+}
+
+.notification-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.notification-list li {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.logout-button {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #d32f2f;
+}

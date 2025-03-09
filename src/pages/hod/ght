@@ -1,0 +1,506 @@
+// import React, { useEffect, useState, useContext } from "react";
+// import "./StudentDashboard.css"; // Importing the CSS file for styling
+// import { getDocs, getDoc, doc, collection, addDoc, deleteDoc } from "firebase/firestore";
+// import { db, auth } from "../firebase/firebase";
+// import { signOut } from "firebase/auth";
+// import { useNavigate, useLocation } from "react-router-dom";
+// import { toast } from "react-toastify";
+// import { UserContext } from "../firebase/UserContext";
+// import { supabase } from "../supabase/supabaseClient"
+
+// const StudentDashboard = () => {
+//   const { currentUser } = useContext(UserContext);
+//   // student details fetch
+//   const [studentDetails, setStudentDetails] = useState({});
+//   const [projectSubByStudent, setProjectSubByStudent] = useState([]);
+
+//   // project head details fetch
+//   const [projectHeadDetails, setProjectHeadDetails] = useState({});
+
+//   // Add these state variables at the top of your component
+//   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+//   const [selectedProject, setSelectedProject] = useState(null);
+//   const [reviewMessage, setReviewMessage] = useState("");
+
+//   // hod details fetch
+//   const [hodDetails, setHodDetails] = useState({});
+//   const [hodProjects, setHodProjects] = useState([]);
+//   const [notificationTitle, setNotificationTitle] = useState("");
+//   const [notificationDescription, setNotificationDescription] = useState("");
+//   const [hodNotifications, setHodNotifications] = useState([]);
+
+//   const [groupId, setGroupId] = useState("");
+//   const [projectTitle, setProjectTitle] = useState("");
+//   const [description, setDescription] = useState("");
+//   const [file, setFile] = useState(null);
+//   const [githubLink, setGithubLink] = useState("");
+//   const [isModalOpen, setIsModalOpen] = useState(false);
+//   const [projects, setProjects] = useState([]);
+//   const [expandedProject, setExpandedProject] = useState(null);
+//   const [isNotificationFormVisible, setIsNotificationFormVisible] = useState(false);
+//   const navigate = useNavigate();
+//   const location = useLocation();
+//   const { role } = location.state || {};
+
+//   // student details fetch
+//   const fetchStudentsData = async (user) => {
+//     const studentData = await getDoc(doc(db, "students", user.uid));
+//     setStudentDetails(studentData.data());
+//   };
+
+//   // hod details fetch
+//   const fetchHodData = async (user) => {
+//     const hodSnapshot = await getDoc(doc(db, "hods", user.uid));
+//     setHodDetails(hodSnapshot.data());
+//   };
+
+//   // project head details fetch
+//   const fetchProjectHeadData = async (user) => {
+//     const projectHeadSnapshot = await getDoc(doc(db, "project-heads", user.uid));
+//     setProjectHeadDetails(projectHeadSnapshot.data());
+//   };
+
+//   // fetch student projects
+//   const fetchProjects = async (user) => {
+//     const projectsSnapshot = await getDocs(collection(db, "students", user.uid, "projects"));
+//     const projectsList = projectsSnapshot.docs.map(doc => doc.data());
+//     setProjects(projectsList);
+//   };
+
+//   // fetch hod projects
+//   const fetchHodProjects = async (user) => {
+//     const projectsSnapshot = await getDocs(collection(db, "projects"));
+//     const projectsList = await Promise.all(projectsSnapshot.docs.map(async (doc) => {
+//       const project = doc.data();
+//       project.submittedBy = await fetchUserDetails(project.submittedBy);
+//       return project
+//     }
+//     ));
+//     setHodProjects(projectsList);
+//   };
+
+//   // fetch user details through user id
+//   const fetchUserDetails = async (userId) => {
+//     const userDoc = await getDoc(doc(db, "students", userId));
+//     setProjectSubByStudent(userDoc.data());
+//     return userDoc.data();
+//   };
+
+//   // Function to handle review button click
+//   const handleReviewClick = (project) => {
+//     setSelectedProject(project);
+//     setIsReviewModalOpen(true);
+//   };
+
+//   // Function to handle assign button click
+//   const handleAssignProject = async () => {
+//     try {
+//       const user = auth.currentUser;
+//       const projectRef = doc(db, "projects", selectedProject.id);
+//       await updateDoc(projectRef, {
+//         assignedTo: "HOD",
+//         reviewMessage: reviewMessage,
+//       });
+//       toast.success("Project assigned to HOD successfully!", { position: "top-center" });
+//       setIsReviewModalOpen(false);
+//     } catch (error) {
+//       console.error("Error assigning project:", error);
+//       alert("Error assigning project: " + error.message);
+//     }
+//   };
+
+//   useEffect(() => {
+//     auth.onAuthStateChanged(async (user) => {
+//       if (user) {
+//         console.log("User is logged in");
+//         { role === "STUDENT" && await fetchStudentsData(user), fetchProjects(user); }
+//         { role === "HOD" && await fetchHodData(user), fetchHodProjects(user), fetchHodNotifications(user); }
+//         { role === "PROJECTHEAD" && await fetchProjectHeadData(user); }
+//       }
+//     });
+//   }, []);
+
+
+
+//   useEffect(() => {
+
+//     { role === "HOD" && fetchHodNotifications(auth.currentUser) }
+//   }, [hodNotifications])
+
+//   // student logout
+//   const handleLogout = async () => {
+//     try {
+//       await signOut(auth);
+//       navigate("/");
+//     } catch (error) {
+//       console.error("Error logging out:", error);
+//     }
+//   };
+
+
+//   const handleFileChange = (e) => {
+//     setFile(e.target.files[0]);
+//   };
+
+//   // fetch hod notifications
+//   const fetchHodNotifications = async (user) => {
+//     const notificationsSnapshot = await getDocs(collection(db, "hods", user.uid, "notifications"));
+//     const notificationsList = notificationsSnapshot.docs.map(doc => doc.data());
+//     setHodNotifications(notificationsList);
+//   };
+
+//   // notification submit for hod
+//   const handleNotificationSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const notificationData = {
+//         title: notificationTitle,
+//         description: notificationDescription,
+//         createdAt: new Date(),
+//         createdBy: auth.currentUser.uid,
+//       };
+
+//       await addDoc(collection(db, "notifications"), notificationData).then(() => {
+//         toast.success("Notification submitted successfully 1", { position: "top-center" });
+//       });
+
+//       await addDoc(collection(db, "hods", auth.currentUser.uid, "notifications"), notificationData).then(() => {
+//         toast.success("Notification submitted successfully 2 ", { position: "top-center" });
+//       });
+
+//       // Fetch the updated list of notifications
+//     } catch (error) {
+//       console.error("Error submitting notification:", error);
+//       alert("Error submitting notification: " + error.message);
+//     }
+//   };
+
+//   // student project submission
+//   const handleStudentSubmitProject = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const user = auth.currentUser;
+
+//       // Upload file to Supabase
+//       let fileUrl = "";
+//       if (file) {
+//         const { data, error } = await supabase.storage
+//           .from('submission')
+//           .upload(`public/${file.name}`, file);
+//         toast.success("file upload sucees", { position: 'top-center' })
+
+//         if (error) {
+//           console.error('Error uploading file:', error);
+//           alert('Error uploading file');
+//           return;
+//         } else {
+//           const { data: urlData } = await supabase.storage
+//             .from('submission')
+//             .getPublicUrl(`public/${file.name}`);
+//           fileUrl = urlData.publicUrl;
+//         }
+//       }
+
+//       const projectData = {
+//         groupId,
+//         projectTitle,
+//         description,
+//         githubLink,
+//         fileName: file ? file.name : null,
+//         fileUrl: fileUrl,
+//         submittedBy: user.uid,
+//         submittedAt: new Date(),
+//       };
+
+//       await addDoc(collection(db, "students", user.uid, "projects"), projectData).then(
+//         () => { toast.success("Project under submitted successfully!", { position: "top-center" }) });
+
+//       await addDoc(collection(db, "projects"), projectData).then(() => {
+//         toast.success("Project outside submitted successfully!", { position: "top-center" });
+//       });
+
+//       setIsModalOpen(false); // Close the modal after submission
+//       await fetchProjects(user); // Fetch the updated list of projects
+//     } catch (error) {
+//       console.error("Error submitting project:", error);
+//       alert("Error submitting project: " + error.message);
+//     }
+//   }
+
+//   const toggleExpandProject = (index) => {
+//     setExpandedProject(expandedProject === index ? null : index);
+//   };
+
+//   const handleDeleteProject = async (projectId) => {
+//     try {
+//       const user = auth.currentUser;
+//       await deleteDoc(doc(db, "students", user.uid, "projects", projectId)).then(() => {
+//         alert("Project deleted successfully!");
+//       });
+
+//       await fetchProjects(user); // Fetch the updated list of projects
+//     } catch (error) {
+//       console.error("Error deleting project:", error);
+//       alert("Error deleting project: " + error.message);
+//     }
+//   };
+
+//   return (
+//     <div className="dashboard-container">
+
+//       {/* panel for admin details */}
+//       <div className="left-panel">
+//         <h2 className="text-blue-950 font-bold text-[18px]">{
+//           role === "HOD" ? "Head of Department" :
+//             role === "PROJECTHEAD" ? "Project Head" :
+//               role === "STUDENT" ? "Student" : null
+//         } Dashboard</h2>
+
+//         {role === "STUDENT" &&
+//           <div className="student-details">
+//             <h3>Student Details</h3>
+//             <p><strong>Name:</strong> {studentDetails.Name}</p>
+//             <p><strong>Roll Number:</strong> {studentDetails.RollNumber}</p>
+//             <p><strong>Branch:</strong> {studentDetails.Branch}</p>
+//             <p><strong>Email:</strong> {studentDetails.Email}</p>
+//           </div>
+//         }
+
+//         {role === "HOD" &&
+//           <div className="student-details">
+//             <h3>Hod Details</h3>
+//             <p><strong>Name:</strong> {hodDetails.Name}</p>
+//             <p><strong>Department:</strong> {hodDetails.Department}</p>
+//             <p><strong>Designation:</strong> {hodDetails.Designation}</p>
+//             <p><strong>Email:</strong> {hodDetails.Email}</p>
+//           </div>
+//         }
+
+//         {role === "PROJECTHEAD" &&
+//           <div className="student-details">
+//             <h3>Project Head Details</h3>
+//             <p><strong>Name:</strong> {projectHeadDetails.Name}</p>
+//             <p><strong>Project:</strong> {projectHeadDetails.Department}</p>
+//             <p><strong>Designation:</strong> {projectHeadDetails.Designation}</p>
+//             <p><strong>Email:</strong> {projectHeadDetails.Email}</p>
+
+//           </div>
+//         }
+
+//         <button onClick={handleLogout} className="logout-button">Logout</button>
+
+//         {role === "HOD" && (
+//           <div className="notification-panel">
+//             <h3>Post a Notification</h3>
+
+//             <button onClick={() => setIsNotificationFormVisible(!isNotificationFormVisible)} className="toggle-notification-form-button">
+//               {isNotificationFormVisible ? "Hide Notification" : "Post Notification"}
+//             </button>
+//             <form onSubmit={handleNotificationSubmit} className={`notification-form ${isNotificationFormVisible ? 'expanded' : ''}`}>
+//               <label htmlFor="notificationTitle">Title:</label>
+//               <input
+//                 type="text"
+//                 id="notificationTitle"
+//                 value={notificationTitle}
+//                 onChange={(e) => setNotificationTitle(e.target.value)}
+//                 required
+//               />
+//               <label htmlFor="notificationDescription">Description:</label>
+//               <textarea
+//                 id="notificationDescription"
+//                 value={notificationDescription}
+//                 onChange={(e) => setNotificationDescription(e.target.value)}
+//                 required
+//               ></textarea>
+//               <button type="submit" onClick={() => setIsNotificationFormVisible(!isNotificationFormVisible)} className="submit-button">Post Notification</button>
+//             </form>
+
+//             {/* Notification List */}
+//             <div className="notification-list">
+//               <h3>Notifications</h3>
+//               <ul>
+//                 {hodNotifications.map((notification, index) => (
+//                   <li key={index}>
+//                     <strong>{notification.title}</strong>
+//                     <p>{notification.description}</p>
+//                     <p><em>{new Date(notification.createdAt.seconds * 1000).toLocaleString()}</em></p>
+//                   </li>
+//                 ))}
+//               </ul>
+//             </div>
+
+//           </div>
+//         )}
+//       </div>
+
+//       {role === "STUDENT" &&
+//         <div className="right-panel">
+//           <h3>Project Submission</h3>
+//           <button onClick={() => setIsModalOpen(true)} className="add-project-button">Add Project</button>
+//           {isModalOpen && (
+//             <div className="modal">
+//               <div className="modal-content">
+//                 <span className="close-button" onClick={() => setIsModalOpen(false)}>&times;</span>
+
+//                 <form onSubmit={handleStudentSubmitProject} className="project-form">
+//                   <label htmlFor="groupId">Group ID:</label>
+//                   <input
+//                     type="text"
+//                     id="groupId"
+//                     value={groupId}
+//                     onChange={(e) => setGroupId(e.target.value)}
+//                     required
+//                   />
+
+//                   <label htmlFor="projectTitle">Project Title:</label>
+//                   <input
+//                     type="text"
+//                     id="projectTitle"
+//                     value={projectTitle}
+//                     onChange={(e) => setProjectTitle(e.target.value)}
+//                     required
+//                   />
+
+//                   <label htmlFor="description">Description:</label>
+//                   <textarea
+//                     id="description"
+//                     value={description}
+//                     onChange={(e) => setDescription(e.target.value)}
+//                     required
+//                   ></textarea>
+
+//                   <label htmlFor="file">Upload File:</label>
+//                   <input
+//                     type="file"
+//                     id="file"
+//                     onChange={handleFileChange}
+//                   />
+
+//                   <label htmlFor="githubLink">GitHub Link:</label>
+//                   <input
+//                     type="url"
+//                     id="githubLink"
+//                     value={githubLink}
+//                     onChange={(e) => setGithubLink(e.target.value)}
+//                   />
+
+//                   <button type="submit" className="submit-button">Submit Project</button>
+//                 </form>
+//               </div>
+//             </div>
+//           )}
+
+//           <div className="project-list">
+//             <h3>Submitted Projects</h3>
+//             <div className="project-row">
+//               {projects.map((project, index) => (
+//                 <div key={index} className="project-item">
+//                   <div className="project-summary" onClick={() => toggleExpandProject(index)}>
+//                     <h4>{project.projectTitle}</h4>
+//                     <p><strong>Group ID:</strong> {project.groupId}</p>
+//                   </div>
+//                   {expandedProject === index && (
+//                     <div className="project-details">
+//                       <p><strong>Description:</strong> {project.description}</p>
+//                       {project.fileName && <p><strong>File Name:</strong> {project.fileName}</p>}
+//                       {project.githubLink && <p><strong>GitHub Link:</strong> <a href={project.githubLink} target="_blank" rel="noopener noreferrer">{project.githubLink}</a></p>}
+//                       {project.fileUrl && <p><strong>File Link:<a href={project.fileUrl} > Download</a></strong></p>}
+//                       <button onClick={() => handleDeleteProject(project.groupId)} className="delete-button">Delete Project</button>
+
+//                     </div>
+//                   )}
+//                 </div>
+//               ))}
+//             </div>
+//           </div>
+//         </div>
+//       }
+
+//       {/* hod right panel */}
+//       {
+//         role === "HOD" &&
+
+//         <div className="right-panel">
+//           <div className="project-list">
+//             <h3>Submitted Projects by students</h3>
+//             <div className="project-row">
+//               {hodProjects.map((project, index) => (
+//                 <div key={index} className="project-item">
+
+//                   <p className="flex">submitted by : <h4 className="text-blue-800 font-bold">{project.submittedBy.Name} </h4> </p>
+//                   <div className="project-summary" onClick={() => toggleExpandProject(index)}>
+//                     <h4>{project.projectTitle}</h4>
+//                     <p><strong>Group ID:</strong> {project.groupId}</p>
+//                   </div>
+//                   {expandedProject === index && (
+//                     <div className="project-details">
+//                       <p><strong>Description:</strong> {project.description}</p>
+//                       {project.fileName && <p><strong>File:</strong> {project.fileName}</p>}
+//                       {project.githubLink && <p><strong>GitHub Link:</strong> <a href={project.githubLink} target="_blank" rel="noopener noreferrer">{project.githubLink}</a></p>}
+//                       {project.fileUrl && <p><strong>File url :</strong><a href={project.fileUrl}>Download</a></p>}
+//                       <button className="delete-button">Accept Project</button>
+
+//                     </div>
+//                   )}
+//                 </div>
+//               ))}
+//             </div>
+//           </div>
+//         </div>
+//       }
+
+//       {/* project head right panel */}
+//       {
+//         role === "PROJECTHEAD" &&
+//         <div className="right-panel">
+//           <div className="project-list">
+//             <h3>Submitted Projects by students</h3>
+//             <div className="project-row">
+//               {hodProjects.map((project, index) => (
+//                 <div key={index} className="project-item">
+
+//                   <p className="flex">submitted by : <h4 className="text-blue-800 font-bold">{project.submittedBy.Name} </h4> </p>
+//                   <div className="project-summary" onClick={() => toggleExpandProject(index)}>
+//                     <h4>{project.projectTitle}</h4>
+//                     <p><strong>Group ID:</strong> {project.groupId}</p>
+//                   </div>
+//                   {isReviewModalOpen && (
+//                     <div className="modal">
+//                       <div className="modal-content">
+//                         <span className="close-button" onClick={() => setIsReviewModalOpen(false)}>&times;</span>
+//                         <h3>Review Project</h3>
+//                         <p><strong>Project Title:</strong> {selectedProject.projectTitle}</p>
+//                         <p><strong>Submitted By:</strong> {selectedProject.submittedBy.Name}</p>
+//                         <textarea
+//                           placeholder="Message to student"
+//                           value={reviewMessage}
+//                           onChange={(e) => setReviewMessage(e.target.value)}
+//                           className="review-message-input"
+//                         ></textarea>
+//                         <button onClick={handleAssignProject} className="assign-button">Assign to HOD</button>
+//                       </div>
+//                     </div>
+//                   )}
+//                   {expandedProject === index && (
+//                     <div className="project-details">
+//                       <p><strong>Description:</strong> {project.description}</p>
+//                       {project.fileName && <p><strong>File:</strong> {project.fileName}</p>}
+//                       {project.githubLink && <p><strong>GitHub Link:</strong> <a href={project.githubLink} target="_blank" rel="noopener noreferrer">{project.githubLink}</a></p>}
+//                       {project.fileUrl && <p><strong>File url :</strong><a href={project.fileUrl}>Download</a></p>}
+//                       <button onClick={() => handleReviewClick(project)} className="delete-button">Review</button>
+
+//                     </div>
+//                   )}
+
+//                 </div>
+//               ))}
+//             </div>
+//           </div>
+//         </div>
+//       }
+//     </div>
+//   );
+
+// };
+
+// export default StudentDashboard;

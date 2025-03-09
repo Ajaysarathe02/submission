@@ -1,0 +1,140 @@
+/* General styles */
+.dashboard-container {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .left-panel {
+    flex: 1;
+    padding: 20px;
+    margin-right: 10px;
+  }
+
+  .right-panel {
+    flex: 1;
+    padding: 20px;
+    margin-left: 10px;
+  }
+  
+  .student-details, .project-list {
+    margin-top: 20px;
+  }
+  
+  .project-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  
+  .project-summary {
+    cursor: pointer;
+  }
+  
+  .project-details {
+    margin-top: 10px;
+  }
+  
+  .delete-button, .review-button, .assign-button {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .delete-button:hover, .review-button:hover, .assign-button:hover {
+    background-color: #d32f2f;
+  }
+  
+  .add-project-button, .submit-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .add-project-button:hover, .submit-button:hover {
+    background-color: #45a049;
+  }
+  
+  .logout-button {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .logout-button:hover {
+    background-color: #d32f2f;
+  }
+  
+  /* Modal styles */
+  .modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+  
+  .close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close-button:hover,
+  .close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .review-message-input {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+  }
+  
+  .assign-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .assign-button:hover {
+    background-color: #45a049;
+  }
